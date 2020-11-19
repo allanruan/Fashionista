@@ -1,0 +1,92 @@
+<!-- show company -->
+
+<div class="container">
+    <div *ngIf="notify" class="alert alert-success">
+        {{ notify }}
+      </div>
+      <div *ngIf="errors.length > 0" class="alert alert-danger">
+        <p *ngFor = "let error of errors">
+            {{ error }}
+        </p>
+      </div>
+    <button (click)="getCompanies()">Show All</button>
+    <button (click)="getForm()">Add Company</button><br>
+    <form #searchForm="ngForm" *ngIf="flag==0||flag==1" (ngSubmit)="getCompanyById()">
+        <label for="searchId">Search ID</label>
+        <input class="form-control" [(ngModel)]="searchId" type="text" id="searchId" name="searchId">
+        <input type="submit" value=search>
+    </form>
+
+    <table class="table table-striped" *ngIf="flag==1">
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>Company Name</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let company of companies;let rowIndex=index">
+                <td>{{company._id}}</td>
+                <td>{{company.name}}</td>
+                <td><button (click)="deleteCompanyById(company._id);getCompanies()">delete</button>
+                    <button (click)="updateForm(company._id,company.name)">update</button></td>
+                
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Company Form -->
+    <form #companyForm="ngForm" *ngIf="flag==2||flag==3">
+        <div class="form-group">
+          <div class="form-group">
+              
+            <label for="_id">ID</label>
+            <input type="text"
+                 class="form-control"
+                 [(ngModel)] = "formData._id"
+                 name="_id"
+                 #_id = "ngModel"
+                 required
+                 >
+            
+            <div *ngIf="_id.invalid && (_id.dirty || _id.touched)"
+                class="alert alert-danger">
+                <div *ngIf="_id.errors.required">
+                ID is required
+                </div>
+             </div>
+
+            <label for="name">Company Name</label>
+            <input type="text"
+                 class="form-control"
+                 [(ngModel)] = "formData.name"
+                 name="name"
+                 #name = "ngModel"
+                 required
+                 >
+            
+            <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                class="alert alert-danger">
+                <div *ngIf="name.errors.required">
+                companyName is required
+                </div>
+             </div>
+        </div>
+    </div>
+        <button
+        *ngIf="flag==2"
+        (click)="addCompany()"
+        [disabled]="!companyForm.valid"
+        type="submit" 
+        class="btn btn-warning"
+        >Submit</button>
+        <button
+        *ngIf="flag==3"
+        (click)="updateCompanyById()"
+        [disabled]="!companyForm.valid"
+        type="submit" 
+        class="btn btn-warning"
+        >Update</button>
+      </form>
+</div>

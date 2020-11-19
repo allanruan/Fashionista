@@ -1,0 +1,3 @@
+Capstone Project:
+
+In this project, I utilized the MEAN stack to create different components for a website that can be used for a user to login, shop items, and checkout cart. The admin has the ability to manage the users, including changing their password and roles, edit products, and manage the companies listed on website. The authorization utilizes user roles, so the user can see different views based on their role. The registration page allows for registration of both admin and user roles, however, it can be implemented to require additional code in order to register for admin account. 

@@ -1,0 +1,17 @@
+<div class="container">
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>Company Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let company of companies;let rowIndex=index">
+                <td>{{rowIndex+1}}</td>
+                <td>{{company.name}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

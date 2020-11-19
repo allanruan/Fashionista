@@ -1,0 +1,61 @@
+<nav class="navbar navbar-light navbar-expand-lg" style="background-color: #e3f2fd;">
+  <div class="container">
+    <a routerLink="/" class="navbar-brand" routerLinkActive="active">Admin Portal</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <ng-container *ngIf="!auth.isAuthenticated()">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login</a>
+              <div class="dropdown-menu">
+                <a routerLink="/auth/login" href="#" class="dropdown-item" routerLinkActive="active">User Login</a>
+                <div class="dropdown-divider"></div>
+                <a href="./admin.html" class="dropdown-item" routerLinkActive="active">Admin Portal</a>
+              </div>
+            
+          </li>
+          <li class="nav-item">
+            <a routerLink="/auth/register" class="nav-link">
+              Register
+            </a>
+          </li>
+        </ng-container>
+        <ng-container *ngIf="auth.isAuthenticated() && auth.isAdmin()">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/product']">Manage Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/user']">Manage Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/services']">Company Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">
+              {{ auth.getUsername() }}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link pointer" (click)="logout()">
+              Logout
+            </a>
+          </li>
+        </ng-container>
+        <ng-container *ngIf="auth.isAuthenticated() && !auth.isAdmin()">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/cart']">Cart</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">
+              {{ auth.getUsername() }}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link pointer" (click)="logout()">
+              Logout
+            </a>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+</nav>

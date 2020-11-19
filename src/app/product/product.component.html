@@ -1,0 +1,130 @@
+<!-- show company -->
+
+<div class="container">
+    <div *ngIf="notify" class="alert alert-success">
+        {{ notify }}
+      </div>
+      <div *ngIf="errors.length > 0" class="alert alert-danger">
+        <p *ngFor = "let error of errors">
+            {{ error }}
+        </p>
+      </div>
+    <button (click)="getProduct()">Show All</button>
+    <button (click)="getForm()">Add Product</button><br>
+    <form #searchForm="ngForm" *ngIf="flag==0||flag==1" (ngSubmit)="getProductById()">
+        <label for="searchId">Search ID</label>
+        <input class="form-control" [(ngModel)]="searchId" type="text" id="searchId" name="searchId">
+        <input type="submit" value=search>
+    </form>
+
+    <table class="table table-striped" *ngIf="flag==1">
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>Product Name</th>
+                <th>Product Price</th>
+                <th>Product Image</th>
+                <th>Product Description</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of products;let rowIndex=index">
+                <td>{{product._id}}</td>
+                <td>{{product.name}}</td>
+                <td>{{product.price}}</td>
+                <td><img src="{{product.image}}" style="height:150px; width:150px" alt=""></td>
+                <td>{{product.description}}</td>
+                <td><button (click)="deleteProductById(product._id);getProduct()">delete</button>
+                    <button (click)="updateForm(product._id,product.name,product.price,product.image,product.description)">update</button></td>
+                
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Company Form -->
+    <form #productForm="ngForm" *ngIf="flag==2||flag==3">
+        <div class="form-group">
+          <div class="form-group">
+              
+            <label for="_id">ID</label>
+            <input type="text"
+                 class="form-control"
+                 [(ngModel)] = "formData._id"
+                 name="_id"
+                 #_id = "ngModel"
+                 required
+                 >
+            
+            <div *ngIf="_id.invalid && (_id.dirty || _id.touched)"
+                class="alert alert-danger">
+                <div *ngIf="_id.errors.required">
+                ID is required
+                </div>
+             </div>
+
+            <label for="name">Product Name</label>
+            <input type="text"
+                 class="form-control"
+                 [(ngModel)] = "formData.name"
+                 name="name"
+                 #name = "ngModel"
+                 required
+                 >
+            
+            <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                class="alert alert-danger">
+                <div *ngIf="name.errors.required">
+                ProductName is required
+                </div>
+             </div>
+             
+             <label for="price">Product Price</label>
+            <input type="text"
+                 class="form-control"
+                 [(ngModel)] = "formData.price"
+                 name="price"
+                 #price = "ngModel"
+                 required
+                 >
+            
+            <div *ngIf="price.invalid && (price.dirty || price.touched)"
+                class="alert alert-danger">
+                <div *ngIf="price.errors.required">
+                Price is required
+                </div>
+             </div>
+             <label for="image">Product Image</label>
+            <input type="text"
+                 class="form-control"
+                 [(ngModel)] = "formData.image"
+                 name="image"
+                 #image = "ngModel"
+                 >
+
+             <label for="description">Product Description</label>
+            <input type="text"
+                 class="form-control"
+                 [(ngModel)] = "formData.description"
+                 name="description"
+                 #description = "ngModel"
+                 >
+            
+        </div>
+    </div>
+        <button
+        *ngIf="flag==2"
+        (click)="addProduct()"
+        [disabled]="!productForm.valid"
+        type="submit" 
+        class="btn btn-warning"
+        >Submit</button>
+        <button
+        *ngIf="flag==3"
+        (click)="updateProductById()"
+        [disabled]="!productForm.valid"
+        type="submit" 
+        class="btn btn-warning"
+        >Update</button>
+      </form>
+</div>
